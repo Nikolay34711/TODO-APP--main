@@ -8,7 +8,6 @@ import './App.css'
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class App extends Component {
-  
   // my initial tasks in my life
   myInitialTask = [
     {
@@ -24,7 +23,7 @@ export default class App extends Component {
       id: v4(),
     },
   ]
-  
+
   // state
   state = {
     taskData: this.myInitialTask,
@@ -94,31 +93,33 @@ export default class App extends Component {
     }))
   }
 
-  render() {
+  // counter
+  counter = () => {
     const { taskData } = this.state
-    const counter = taskData.filter((el) => !el.completed).length
+    return taskData.filter((el) => !el.completed).length
+  }
+
+  render() {
     const { filter } = this.state
 
     return (
       <div className="main">
         <div className="todoapp">
-
-          <NewTaskForm addTask={(newTask) => this.addTask(newTask)} />
+          <NewTaskForm addTask={this.addTask} />
 
           <TaskList
             tasks={this.getFilteredTasks()}
-            onDeleted={(id) => this.onDeleted(id)}
-            toggleCompleted={(id) => this.toggleCompleted(id)}
+            onDeleted={this.onDeleted}
+            toggleCompleted={this.toggleCompleted}
             toggleEdit={this.toggleEdit}
           />
 
           <Footer
             filter={filter}
-            filterName={(typeFilter) => this.listFilter(typeFilter)}
+            filterName={this.listFilter}
             clearCompleted={this.clearCompleted}
-            count={counter}
+            count={this.counter()}
           />
-
         </div>
       </div>
     )

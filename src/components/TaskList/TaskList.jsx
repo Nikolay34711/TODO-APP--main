@@ -5,15 +5,10 @@ import './TaskList.css'
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class TaskList extends Component {
-
   render() {
-
     const { tasks, onDeleted, toggleCompleted, toggleEdit } = this.props
-
     return (
-
       <ul className="todo-list">
-
         {tasks.map((task) => (
           <Task
             key={task.id}
@@ -23,7 +18,6 @@ export default class TaskList extends Component {
             toggleEdit={toggleEdit}
           />
         ))}
-        
       </ul>
     )
   }
