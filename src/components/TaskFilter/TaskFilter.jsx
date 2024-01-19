@@ -5,37 +5,27 @@ import './TaskFilter.css'
 // eslint-disable-next-line react/prefer-stateless-function
 export default class TaskFilter extends Component {
   render() {
-
     const { filterName, filter } = this.props
 
+    const filters = [
+      { name: 'All', value: 'all' },
+      { name: 'Active', value: 'active' },
+      { name: 'Completed', value: 'completed' },
+    ]
+
     return (
-
       <ul className="filters">
-        <li>
-
-          <button type="button" className={filter === 'all' ? 'selected' : ''} onClick={() => filterName('all')}>
-            All
-          </button>
-
-        </li>
-        <li>
-
-          <button type="button" className={filter === 'active' ? 'selected' : ''} onClick={() => filterName('active')}>
-            Active
-          </button>
-
-        </li>
-        <li>
-
-          <button
-            type="button"
-            className={filter === 'completed' ? 'selected' : ''}
-            onClick={() => filterName('completed')}
-          >
-            Completed
-          </button>
-          
-        </li>
+        {filters.map((el) => (
+          <li key={el.value}>
+            <button
+              type="button"
+              className={filter === el.value ? 'selected' : ''}
+              onClick={() => filterName(el.value)}
+            >
+              {el.name}
+            </button>
+          </li>
+        ))}
       </ul>
     )
   }

@@ -1,27 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Task from '../Task/Task'
 import './TaskList.css'
 
-// eslint-disable-next-line react/prefer-stateless-function
-export default class TaskList extends Component {
-  render() {
-    const { tasks, onDeleted, toggleCompleted, toggleEdit } = this.props
-    return (
-      <ul className="todo-list">
-        {tasks.map((task) => (
-          <Task
-            key={task.id}
-            task={task}
-            onDeleted={() => onDeleted(task.id)}
-            toggleCompleted={() => toggleCompleted(task.id)}
-            toggleEdit={toggleEdit}
-          />
-        ))}
-      </ul>
-    )
-  }
-}
+const TaskList = ({ tasks, onDeleted, toggleCompleted, toggleEdit }) => (
+  <ul className="todo-list">
+    {tasks.map((task) => (
+      <Task
+        key={task.id}
+        task={task}
+        onDeleted={() => onDeleted(task.id)}
+        toggleCompleted={() => toggleCompleted(task.id)}
+        toggleEdit={toggleEdit}
+      />
+    ))}
+  </ul>
+)
 
 TaskList.propTypes = {
   tasks: PropTypes.arrayOf(
@@ -34,3 +28,5 @@ TaskList.propTypes = {
   toggleCompleted: PropTypes.func.isRequired,
   toggleEdit: PropTypes.func.isRequired,
 }
+
+export default TaskList

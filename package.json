@@ -21,7 +21,7 @@
 		"eject": "react-scripts eject",
 		"lint": "eslint ./src",
 		"lint:fix": "eslint ./src --fix --color",
-		"format": "prettier — write src/**/*.js",
+		"format": "prettier --write src/**/*.js",
 		"prettier": "prettier --single-quote --use-tabs --trailing-comma es5 --write \"src/**/*.js\""
 	},
 	"eslintConfig": {
@@ -56,7 +56,7 @@
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"husky": "^6.0.0",
 		"lint-staged": "^10.5.4",
-		"prettier": "^2.2.1",
+		"prettier": "^2.8.8",
 		"uuid": "^9.0.1"
 	},
 	"husky": {
