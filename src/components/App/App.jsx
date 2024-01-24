@@ -6,7 +6,6 @@ import TaskList from '../TaskList/TaskList'
 import Footer from '../Footer/Footer'
 import './App.css'
 
-// eslint-disable-next-line react/prefer-stateless-function
 export default class App extends Component {
   // my initial tasks in my life
   myInitialTask = [

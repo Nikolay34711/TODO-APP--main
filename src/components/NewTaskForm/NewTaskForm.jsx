@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './NewTaskForm.css'
 
-// eslint-disable-next-line react/prefer-stateless-function
 export default class NewTaskForm extends Component {
   state = {
     field: '',
@@ -18,11 +17,10 @@ export default class NewTaskForm extends Component {
     e.preventDefault()
     const { field } = this.state
     const { addTask } = this.props
-    if (field.trim().length === 0) {
-      console.log('пусто')
-    } else {
+    if (field.trim().length !== 0) {
       addTask(field)
     }
+
     this.setState(() => ({ field: '' }))
   }
 
