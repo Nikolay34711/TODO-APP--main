@@ -1,20 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './TaskFilter.css'
+import './TaskFilter.scss'
 
-export default function TaskFilter({ filterName, filter }) {
-  const filters = [
-    { name: 'All', value: 'all' },
-    { name: 'Active', value: 'active' },
-    { name: 'Completed', value: 'completed' },
-  ]
+const filters = [
+  { name: 'all', label: 'All' },
+  { name: 'active', label: 'Active' },
+  { name: 'completed', label: 'Completed' },
+]
 
+export default function TaskFilter({ toggleFilter, classFilter }) {
   return (
     <ul className="filters">
-      {filters.map((el) => (
-        <li key={el.value}>
-          <button type="button" className={filter === el.value ? 'selected' : ''} onClick={() => filterName(el.value)}>
-            {el.name}
+      {filters.map(({ name, label }) => (
+        <li key={name}>
+          <button
+            type="button"
+            className={classFilter === name ? 'selected' : ''}
+            onClick={() => toggleFilter(name)}
+          >
+            {label}
           </button>
         </li>
       ))}
@@ -23,6 +27,6 @@ export default function TaskFilter({ filterName, filter }) {
 }
 
 TaskFilter.propTypes = {
-  filterName: PropTypes.func.isRequired,
-  filter: PropTypes.string.isRequired,
+  toggleFilter: PropTypes.func.isRequired,
+  classFilter: PropTypes.string.isRequired,
 }

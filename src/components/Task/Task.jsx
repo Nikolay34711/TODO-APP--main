@@ -1,73 +1,82 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
-import './Task.css'
+import './Task.scss'
 
-export default class Task extends Component {
-  state = {
-    isEdit: false,
-    editText: '',
-  }
+export default function Task({
+  task,
+  toggleCompleted,
+  delTask,
+  toggleEdit,
+  startTimer,
+  stopTimer,
+}) {
+  // destructuring task
+  const { description, created, id, formatTime, completed } = task
 
-  toggleEdit = () => {
-    this.setState(({ isEdit }) => ({
-      isEdit: !isEdit,
-      // eslint-disable-next-line
-      editText: this.props.task.description,
-    }))
-  }
+  // state
+  const [isEdit, setIsEdit] = useState(false)
+  const [newDesc, setNewDesc] = useState(description)
 
-  handleChange = (e) => {
-    this.setState({ editText: e.target.value })
-  }
-
-  onSubmit = (e) => {
+  // submit
+  const onSubmit = (e) => {
     e.preventDefault()
-    const { toggleEdit } = this.props
-    // eslint-disable-next-line
-    toggleEdit(this.state.editText, this.props.task.id)
-    this.setState({ isEdit: false })
+    toggleEdit(newDesc, id)
+    setIsEdit(false)
   }
 
-  render() {
-    const { isEdit, editText } = this.state
-    const { task, onDeleted, toggleCompleted } = this.props
-    return (
-      <>
-        {!isEdit && (
-          <li className={task.completed ? 'completed' : ''}>
-            <div className="view">
-              <input className="toggle" type="checkbox" checked={task.completed} onChange={toggleCompleted} />
-
-              <label>
-                <span className="description">{task.description} </span>
-                <span className="created">
-                  created {formatDistanceToNow(task.timer, { includeSeconds: true, addSuffix: true })}
-                </span>
-              </label>
-              <button type="button" className="icon icon-edit" onClick={this.toggleEdit} />
-              <button type="button" className="icon icon-destroy" onClick={onDeleted} />
-            </div>
-          </li>
-        )}
-
-        {isEdit && (
-          <form onSubmit={this.onSubmit}>
-            <input type="text" className="edit" value={editText} onChange={this.handleChange} />
-          </form>
-        )}
-      </>
-    )
-  }
+  return (
+    <>
+      {!isEdit && (
+        <li className={completed ? 'completed' : ''}>
+          <div className="view">
+            <input
+              className="toggle"
+              type="checkbox"
+              checked={completed}
+              onChange={() => toggleCompleted(id)}
+            />
+            <label>
+              <span className="title">{description}</span>
+              <span className="description">
+                <button type="button" className="icon icon-play" onClick={() => startTimer(id)} />
+                <button type="button" className="icon icon-pause" onClick={() => stopTimer(id)} />
+                <span className="span-timer">{formatTime}</span>
+              </span>
+              <span className="description">
+                created {formatDistanceToNow(created, { includeSeconds: true, addSuffix: true })}
+              </span>
+            </label>
+            <button type="button" className="icon icon-edit" onClick={() => setIsEdit(true)} />
+            <button type="button" className="icon icon-destroy" onClick={() => delTask(id)} />
+          </div>
+        </li>
+      )}
+      {isEdit && (
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            className="edit"
+            value={newDesc}
+            onChange={(e) => setNewDesc(e.target.value)}
+          />
+        </form>
+      )}
+    </>
+  )
 }
 
 Task.propTypes = {
   task: PropTypes.shape({
     description: PropTypes.string.isRequired,
-    timer: PropTypes.instanceOf(Date).isRequired,
+    created: PropTypes.instanceOf(Date).isRequired,
     completed: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    formatTime: PropTypes.string,
   }).isRequired,
-  onDeleted: PropTypes.func.isRequired,
   toggleCompleted: PropTypes.func.isRequired,
+  delTask: PropTypes.func.isRequired,
   toggleEdit: PropTypes.func.isRequired,
+  startTimer: PropTypes.func.isRequired,
+  stopTimer: PropTypes.func.isRequired,
 }

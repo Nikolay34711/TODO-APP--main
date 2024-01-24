@@ -1,40 +1,50 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import './NewTaskForm.css'
+import './NewTaskForm.scss'
 
-export default class NewTaskForm extends Component {
-  state = {
-    field: '',
-  }
+export default function NewTaskForm({ addTask }) {
+  const [text, setText] = useState('')
+  const [min, setMin] = useState('')
+  const [sec, setSec] = useState('')
 
-  onChange = (e) => {
-    this.setState({
-      field: e.target.value,
-    })
-  }
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
-    const { field } = this.state
-    const { addTask } = this.props
-    if (field.trim().length !== 0) {
-      addTask(field)
+    const minutes = parseInt(min, 10) || 0
+    const seconds = parseInt(sec, 10) || 0
+    if (text.trim()) {
+      addTask(text, minutes, seconds)
     }
-
-    this.setState(() => ({ field: '' }))
+    setText('')
+    setMin('')
+    setSec('')
   }
 
-  render() {
-    const { field } = this.state
-
-    return (
-      <form className="header" onSubmit={this.onSubmit}>
-        <h1>Todos</h1>
-
-        <input className="new-todo" value={field} onChange={this.onChange} placeholder="What needs to be done?" />
-      </form>
-    )
-  }
+  return (
+    <form className="new-todo-form" onSubmit={onSubmit}>
+      <h1>Todos</h1>
+      <input type="submit" hidden />
+      <input
+        className="new-todo"
+        placeholder="What needs to be done?"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <input
+        type="number"
+        className="new-todo-form__timer"
+        placeholder="Min"
+        value={min}
+        onChange={(e) => setMin(e.target.value)}
+      />
+      <input
+        type="number"
+        className="new-todo-form__timer"
+        placeholder="Sec"
+        value={sec}
+        onChange={(e) => setSec(e.target.value)}
+      />
+    </form>
+  )
 }
 
 NewTaskForm.propTypes = {
